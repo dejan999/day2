@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="Scripts/Script.js"></script>
+    <script src="Scripts/Filter.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body ng-app="myModule">
+    <div ng-controller="myController">
+        <table>
+            <thead>
+                <tr>
+                    <th>Name:</th>
+                    <th>Like:</th>
+                    <th>Dislike:</th>
+                    <th>Like/Dislike:</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="technology in technologies">
+                    <td>{{technology.name}}</td>
+                    <td>{{technology.like}}</td>
+                    <td>{{technology.dislike}}</td>
+                    <td>
+                        <input type="button" value="Like" ng-click="incrementLike(technology)">
+                        <input type="button" value="Dislike" ng-click="incrementDislike(technology)">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br>
+        <br>
+        <br>
+        <table>
+            Order by: <select ng-model="sortColumn">
+                <option value="name">Name ASC</option>
+                <option value="dateOfBirth">Date of birth ASC</option>
+                <option value="gender">Gender ASC</option>
+                <option value="-salary">Salary DESC</option>
+
+            </select>
+            <br>
+            <br>
+            Search: <input type="text" placeholder="Serach employe and gender" ng-model="searchText">
+            <br>
+            <br>
+            <br>
+            Hide Salary <input type="checkbox" ng-model="hideSalary">
+            <br><br><br>
+            <thead>
+                <tr>
+                    <th ng-click="sortData('name')">
+                        Name <div ng-class="getSortClass('name')"></div>
+                    </th>
+                    <th ng-click="sortData('dateOfBirth')">
+                        Date <div ng-class="getSortClass('dateOfBirth')"></div>
+                    </th>
+                    <th ng-click="sortData('gender')">
+                        Gender <div ng-class="getSortClass('gender')"></div>
+                    </th>
+                    <th ng-hide="hideSalary" ng-click="sortData('salary')">
+                        Salary <div ng-class="getSortClass('salary')"></div>
+                    </th>
+                    <th ng-show="hideSalary" ng-click="sortData('salary')">
+                        Salary <div ng-class="getSortClass('salary')"></div>
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="employe in employees | orderBy:sortColumn:reverseSort | filter:search">
+                    <td>{{employe.name | uppercase}}</td>
+                    <td>{{employe.dateOfBirth | date:dd/MM/yyyy}}</td>
+                    <td>{{employe.gender | gender}}</td>
+                    <td ng-hide="hideSalary">{{employe.salary | number:2}}</td>
+                    <td ng-show="hideSalary">#####</td>
+
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+
+    <div ng-controller="myCtrl">
+        {{error}}
+        <br><br>
+      <h2>Beatles Albums</h2><br>
+        <table>
+            <thead>
+                <tr>
+                    <th>Entertainer</th>
+                    <th>Album</th>
+                    <th>Relase Date</th>
+                    <th>Label</th>
+                    <th>ID</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="album in albums">
+                    <td>{{album.Entertainer}}</td>
+                    <td>{{album.Album}}</td>
+                    <td>{{album.ReleaseDate}}</td>
+                    <td>{{album.Label}}</td>
+                    <td>{{album.ID}}</td>
+    
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <br><br><br>
+
+    <div>
+        <table>
+            <tr>
+                <th>Your string:</th>
+                <th><input type="text" ng-model="input"></th>
+            </tr>
+            <tr>
+                <th>Result:</th>
+                <th><input type="text" ng-model="output"></th>
+            </tr>
+            <tr>
+                <th></th>
+                <th><input type="button" ng-click="transformString(input)" value="Process strings"></th>
+            </tr>
+        </table>
+    </div>
+
+</body>
+
+</html>
